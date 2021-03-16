@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
+import TodoList from './TodoList';
+import CreateTodo from './CreateTodo';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [todo, setTodo] = useState([]);
+
+	const handleNewTodo = event => {
+		if (event.key === 'Enter') {
+			setTodo(prev => [...prev, event.target.value]);
+		}
+	};
+
+	return (
+		<>
+			<h1>React Todo List</h1>
+			<input
+				type="text"
+				name="createTodo"
+				placeholder="Enter a new todo..."
+				onKeyPress={handleNewTodo}
+			/>
+			<TodoList displayTodos={todo} />
+		</>
+	);
 }
 
 export default App;
