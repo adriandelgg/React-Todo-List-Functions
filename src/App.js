@@ -24,6 +24,7 @@ function App() {
 		setTodos(prev => prev.filter(todo => parentId !== todo.id));
 	};
 
+	// Toggles todo complete
 	const checkTodo = ({ target }) => {
 		const parentId = Number(target.parentNode.getAttribute('id'));
 		setTodos(prev =>
@@ -36,6 +37,10 @@ function App() {
 		);
 	};
 
+	const clearCompleted = () => {
+		setTodos(prev => prev.filter(todo => !todo.completed));
+	};
+
 	return (
 		<main className="app">
 			<h1>React Todo List</h1>
@@ -45,6 +50,7 @@ function App() {
 				placeholder="Enter a new todo..."
 				onKeyPress={handleNewTodo}
 			/>
+			<button onClick={clearCompleted}>Clear Completed</button>
 			<TodoList
 				todos={todos}
 				onRemove={handleRemoveTodo}
