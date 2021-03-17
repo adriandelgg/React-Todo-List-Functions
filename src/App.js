@@ -2,19 +2,42 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import TodoList from './TodoList';
-import CreateTodo from './CreateTodo';
 
 function App() {
-	const [todo, setTodo] = useState([]);
+	const [todos, setTodos] = useState([]);
 
 	const handleNewTodo = event => {
 		if (event.key === 'Enter') {
-			setTodo(prev => [...prev, event.target.value]);
+			setTodos(prev => [
+				...prev,
+				{
+					value: event.target.value,
+					id: Math.random(),
+					completed: false
+				}
+			]);
 		}
 	};
 
+	const handleRemoveTodo = ({ target }) => {
+		const parentId = Number(target.parentNode.getAttribute('id'));
+		setTodos(prev => prev.filter(todo => parentId !== todo.id));
+	};
+
+	const checkTodo = ({ target }) => {
+		const parentId = Number(target.parentNode.getAttribute('id'));
+		setTodos(prev =>
+			prev.map(todo => {
+				if (parentId === todo.id) {
+					todo.completed = target.checked;
+				}
+				return todo;
+			})
+		);
+	};
+
 	return (
-		<>
+		<main className="app">
 			<h1>React Todo List</h1>
 			<input
 				type="text"
@@ -22,8 +45,12 @@ function App() {
 				placeholder="Enter a new todo..."
 				onKeyPress={handleNewTodo}
 			/>
-			<TodoList displayTodos={todo} />
-		</>
+			<TodoList
+				todos={todos}
+				onRemove={handleRemoveTodo}
+				onComplete={checkTodo}
+			/>
+		</main>
 	);
 }
 

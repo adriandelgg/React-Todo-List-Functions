@@ -1,17 +1,19 @@
-import React from 'react'
+import React from 'react';
 
 export default function TodoList(props) {
-   const createTodos = todo => {
-      let todos = props.displayTodos.map(todo => {
-         return (
-            <div>
-               <p>{props.displayTodos}</p>
-               <button onClick=""></button>
-            </div>
-         );
-      });
-      return todos;
-   };
-   
-   return <>{createTodos()}</>
+	const { todos, onRemove, onComplete } = props;
+
+	const createTodos = () => {
+		return todos.map(todo => {
+			return (
+				<div key={todo.id} id={todo.id} className="todo-list">
+					<p>{todo.value}</p>
+					<input type="checkbox" onChange={onComplete}></input>
+					<button onClick={onRemove}>X</button>
+				</div>
+			);
+		});
+	};
+
+	return <>{createTodos()}</>;
 }
